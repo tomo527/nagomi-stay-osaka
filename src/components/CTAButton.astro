@@ -1,0 +1,47 @@
+---
+export interface Props {
+  text?: string;
+  subText?: string;
+}
+
+const AIRBNB_LINK = "https://www.airbnb.jp/rooms/1571410271840407281";
+const { text = "Check availability", subText = "空室状況を確認" } = Astro.props;
+---
+
+<div class="cta-wrapper">
+  <a href={AIRBNB_LINK} target="_blank" rel="noopener noreferrer" class="cta-button">
+    <span class="cta-main">{text}</span>
+    <span class="cta-sub">{subText}</span>
+  </a>
+</div>
+
+<style>
+  .cta-wrapper {
+    margin: var(--spacing-md) 0;
+  }
+  .cta-button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-brand);
+    color: white;
+    padding: 12px 32px;
+    border-radius: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .cta-button:hover {
+    background-color: var(--color-brand-hover);
+    transform: translateY(-2px);
+  }
+  .cta-main {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .cta-sub {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-top: 2px;
+  }
+</style>

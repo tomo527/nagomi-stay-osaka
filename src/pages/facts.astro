@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Generate LodgingBusiness JSON-LD for AI Overviews (AIO)
+const lodgingJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Nagomi Stay Osaka",
+  "url": "https://nagomi-stay-osaka.pages.dev",
+  "telephone": "", // Not provided for privacy/Airbnb policy
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Higashiyodogawa-ku",
+    "addressRegion": "Osaka",
+    "streetAddress": "Awaji 1-chome area",
+    "addressCountry": "JP"
+  },
+  "description": "A spacious 60㎡ entire home rental in Osaka, Japan. Features 2 bedrooms, 5 beds, full kitchen, and projector. Located 1 stop from Shin-Osaka station.",
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Projector", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Full Kitchen", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Washer and Dryer", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Self Check-in", "value": true }
+  ]
+};
+---
+
+<Layout 
+  title="Key Facts & Information" 
+  description="Essential facts, amenities, and licensing information for Nagomi Stay Osaka. A concise overview for your convenience."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(lodgingJsonLd)} slot="json-ld" />
+
+  <div class="container page-content">
+    <h1>Key Facts & Information</h1>
+    <p class="text-ja mb-xl">施設概要・基本情報</p>
+
+    <div class="facts-intro mb-lg">
+      <p>This page provides a highly structured overview of Nagomi Stay Osaka, designed to quickly answer your most important questions about our property.</p>
+    </div>
+
+    <section class="facts-grid">
+      <div class="fact-card">
+        <h3>Property Overview</h3>
+        <ul class="fact-list">
+          <li><strong>Property Type:</strong> Entire residential home</li>
+          <li><strong>Size:</strong> 60 square meters (60㎡)</li>
+          <li><strong>Maximum Occupancy:</strong> Up to 5 guests</li>
+          <li><strong>Bedrooms:</strong> 2 separate bedrooms</li>
+          <li><strong>Beds:</strong> 5 beds in total</li>
+          <li><strong>Bathrooms:</strong> 1 full bathroom</li>
+        </ul>
+      </div>
+
+      <div class="fact-card">
+        <h3>Key Amenities</h3>
+        <ul class="fact-list">
+          <li>Self check-in via secure dial lock</li>
+          <li>High-speed Wi-Fi internet access</li>
+          <li>Home theater projector</li>
+          <li>In-unit washer-dryer combo</li>
+          <li>Fully equipped kitchen</li>
+          <li>Air conditioning (cooling and heating)</li>
+          <li>TV</li>
+        </ul>
+      </div>
+
+      <div class="fact-card">
+        <h3>Location & Transit</h3>
+        <ul class="fact-list">
+          <li><strong>Area:</strong> Awaji 1-chome area, Higashiyodogawa-ku, Osaka</li>
+          <li><strong>Nearest Station:</strong> Higashi-Yodogawa Station (JR Kyoto Line)</li>
+          <li><strong>Transit to Shinkansen:</strong> 1 stop to Shin-Osaka Station</li>
+          <li><strong>Taxi:</strong> ~4 minutes travel time from Shin-Osaka Station</li>
+          <li><strong>Airport Access:</strong> Kansai Airport (KIX) → Haruka Express → Shin-Osaka → Higashi-Yodogawa</li>
+        </ul>
+      </div>
+
+      <div class="fact-card">
+        <h3>Policies & Licensing</h3>
+        <ul class="fact-list">
+          <li><strong>Check-in Time:</strong> 4:00 PM (16:00)</li>
+          <li><strong>Check-out Time:</strong> 10:00 AM (10:00)</li>
+          <li><strong>Smoking Policy:</strong> Strictly non-smoking (including balcony/incense)</li>
+          <li><strong>Parking:</strong> No street parking; please use nearby coin parking</li>
+          <li>
+            <strong>Operating License:</strong><br/>
+            Authorized by Osaka City under the Hotel Business Act.<br/>
+            Registration Number: <code>大阪市指令 大保環第25ー3842号</code>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  .page-content {
+    padding: var(--spacing-xl) var(--spacing-sm);
+  }
+  .mb-xl {
+    margin-bottom: var(--spacing-xl);
+  }
+  .mb-lg {
+    margin-bottom: var(--spacing-lg);
+  }
+  .facts-intro {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    max-width: 800px;
+  }
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+  }
+  .fact-card {
+    background: var(--color-bg-alt);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+  }
+  .fact-card h3 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-brand);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--spacing-sm);
+  }
+  .fact-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .fact-list li {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.5;
+  }
+  code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ImageWrapper from '../components/ImageWrapper.astro';
+---
+
+<Layout 
+  title="Home" 
+  description="Welcome to Nagomi Stay Osaka. A comfortable 60㎡ 2-bedroom home in the Awaji 1-chome area, Osaka. Only 1 stop from Shin-Osaka station."
+>
+  <section class="hero-section">
+    <div class="hero-image-container">
+      <ImageWrapper src="/photos/00_Hero/Hero_01.jpg" alt="Nagomi Stay Osaka Living Room" height="100%" />
+    </div>
+    
+    <div class="container hero-content">
+      <h1>Welcome to Nagomi Stay Osaka</h1>
+      <p class="text-ja" style="font-size: 1.1rem; margin-top: -10px; margin-bottom: 20px;">和みステイ大阪へようこそ</p>
+      
+      <p class="hero-text">
+        Experience a relaxing and comfortable stay in Osaka. Our spacious 60㎡ home is perfect for families and groups up to 5 people. Located in the quiet Awaji 1-chome area, just 1 stop from Shin-Osaka station.
+      </p>
+      <p class="text-ja mb-md">
+        大阪でのゆったりとした快適な滞在をお楽しみください。最大5名様までご宿泊可能な60㎡の広々としたお部屋です。新幹線「新大阪駅」から1駅とアクセス良好な淡路1丁目周辺の閑静なエリアに位置しています。
+      </p>
+      
+      <CTAButton text="Check availability" subText="空室状況を確認・予約する" />
+    </div>
+  </section>
+
+  <section class="section bg-light">
+    <div class="container section-intro">
+      <h2>Why Choose Nagomi Stay Osaka?</h2>
+      <p class="text-ja mb-lg">和みステイ大阪が選ばれる理由</p>
+      
+      <div class="grid-features">
+        <div class="feature-card">
+          <h3>Excellent Access</h3>
+          <p class="text-ja mb-sm">抜群のアクセス</p>
+          <p>Just 1 stop from Shin-Osaka bullet train station. Easy connection from Kansai Airport via Haruka shuttle express.</p>
+          <p class="text-ja">新幹線「新大阪駅」からわずか1駅。関西空港から「はるか」でのアクセスも便利です。</p>
+        </div>
+        <div class="feature-card">
+          <h3>Spacious & Private</h3>
+          <p class="text-ja mb-sm">広々としたプライベート空間</p>
+          <p>Rent the entire 60㎡ house with 2 separate bedrooms. Perfect for family trips or group vacations up to 5 guests.</p>
+          <p class="text-ja">60平方メートル・2LDKの一軒家を丸ごと貸切。家族旅行やグループでのご宿泊に最適です（最大5名様）。</p>
+        </div>
+        <div class="feature-card">
+          <h3>Home Theater & Full Kitchen</h3>
+          <p class="text-ja mb-sm">ホームシアター・フルキッチン完備</p>
+          <p>Enjoy movies on our projector or cook meals in the fully equipped kitchen during your stay.</p>
+          <p class="text-ja">備え付けのプロジェクターで映画を楽しんだり、設備の整ったキッチンで料理をすることもできます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero-section {
+    padding-bottom: var(--spacing-xl);
+  }
+  .hero-image-container {
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+  .hero-content {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-text {
+    font-size: 1.2rem;
+  }
+  .bg-light {
+    background-color: var(--color-bg-alt);
+  }
+  .section-intro {
+    text-align: center;
+  }
+  .grid-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    text-align: left;
+  }
+  .feature-card {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(--color-border);
+  }
+</style>

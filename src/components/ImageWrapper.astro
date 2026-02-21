@@ -1,0 +1,47 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+export interface Props {
+  src: string;
+  alt: string;
+  className?: string;
+  width?: string;
+  height?: string;
+}
+
+const { src, alt, className = "", width = "100%", height = "auto" } = Astro.props;
+
+// Build time check to see if the file exists in the public directory
+const cwd = process.cwd();
+const publicPath = path.join(cwd, 'public', src);
+const exists = fs.existsSync(publicPath);
+
+---
+
+{exists ? (
+  <img src={src} alt={alt} class={className} style={`width: ${width}; height: ${height}; object-fit: cover;`} loading="lazy" />
+) : (
+  <div class={`image-placeholder ${className}`} style={`width: ${width}; height: ${height};`}>
+    <span class="placeholder-text">Photo: {src}</span>
+  </div>
+)}
+
+<style>
+  .image-placeholder {
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ced4da;
+    border-radius: 8px;
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem;
+    min-height: 200px;
+  }
+  .placeholder-text {
+    word-break: break-all;
+  }
+</style>

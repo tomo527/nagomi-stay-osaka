@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Amenities" 
+  description="Full list of amenities and facilities available at Nagomi Stay Osaka, including Wi-Fi, projector, full kitchen, and washer-dryer."
+>
+  <div class="container page-content">
+    <h1>Amenities & Facilities</h1>
+    <p class="text-ja mb-xl">設備・アメニティ</p>
+    
+    <p class="mb-lg">We provide everything you need for a comfortable stay, whether it's for a few days or a longer vacation.</p>
+    <p class="text-ja mb-xl">数日のご滞在でも、長期のご旅行でも快適にお過ごしいただけるよう、充実した設備をご用意しております。</p>
+    
+    <div class="amenities-grid">
+      <div class="amenity-category">
+        <h3>Entertainment & Connectivity</h3>
+        <p class="text-ja mb-md">エンターテイメント・通信</p>
+        <ul>
+          <li><strong>Free High-Speed Wi-Fi</strong><div class="text-ja text-muted">無料の高速Wi-Fi</div></li>
+          <li><strong>Home Theater Projector</strong><div class="text-ja text-muted">ホームシアター用プロジェクター</div></li>
+          <li><strong>TV</strong><div class="text-ja text-muted">テレビ</div></li>
+        </ul>
+      </div>
+      
+      <div class="amenity-category">
+        <h3>Kitchen & Dining</h3>
+        <p class="text-ja mb-md">キッチン・ダイニング</p>
+        <ul>
+          <li><strong>Full Kitchen</strong><div class="text-ja text-muted">充実した設備のフルキッチン</div></li>
+          <li><strong>Refrigerator, Microwave, Stove</strong><div class="text-ja text-muted">冷蔵庫、電子レンジ、コンロ</div></li>
+          <li><strong>Cooking Basics & Tableware</strong><div class="text-ja text-muted">基本的な調理器具と食器類</div></li>
+        </ul>
+      </div>
+
+      <div class="amenity-category">
+        <h3>Comfort & Laundry</h3>
+        <p class="text-ja mb-md">快適設備・洗濯関連</p>
+        <ul>
+          <li><strong>Air Conditioning (AC/Heating)</strong><div class="text-ja text-muted">エアコン（冷暖房）</div></li>
+          <li><strong>Washer-Dryer (Combo)</strong><div class="text-ja text-muted">洗濯乾燥機</div></li>
+          <li><strong>Self Check-In Dial Lock</strong><div class="text-ja text-muted">ダイヤル錠によるセルフチェックイン</div></li>
+        </ul>
+      </div>
+
+      <div class="amenity-category">
+        <h3>Bathroom & Essentials</h3>
+        <p class="text-ja mb-md">バスルーム・生活必需品</p>
+        <ul>
+          <li><strong>Shampoo, Conditioner, Body Soap</strong><div class="text-ja text-muted">シャンプー、コンディショナー、ボディソープ</div></li>
+          <li><strong>Clean Towels & Linens</strong><div class="text-ja text-muted">清潔なタオルとリネン類</div></li>
+          <li><strong>Hair Dryer</strong><div class="text-ja text-muted">ヘアドライヤー</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-content {
+    padding: var(--spacing-xl) var(--spacing-sm);
+  }
+  .mb-xl {
+    margin-bottom: var(--spacing-xl);
+  }
+  .amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+  }
+  .amenity-category ul {
+    list-style: none;
+    padding: 0;
+  }
+  .amenity-category li {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .amenity-category li:last-child {
+    border-bottom: none;
+  }
+</style>

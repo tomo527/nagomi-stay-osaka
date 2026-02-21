@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Location & Access" 
+  description="Located in Awaji 1-chome area, Osaka. 1 stop from Shin-Osaka station via train, easy access from KIX airport."
+>
+  <div class="container page-content">
+    <h1>Location & Access</h1>
+    <p class="text-ja mb-xl">所在地・アクセス</p>
+    
+    <section class="mb-xl">
+      <h2>Address Area</h2>
+      <p class="text-ja mb-sm">住所エリア</p>
+      <div class="info-box">
+        <p><strong>Awaji 1-chome area, Higashiyodogawa-ku, Osaka</strong></p>
+        <p class="text-ja">大阪府大阪市東淀川区淡路1丁目付近</p>
+        <p class="text-muted mt-sm" style="font-size: 0.9em;">
+          * The full exact address and check-in instructions are provided via Airbnb after booking is confirmed.<br/>
+          <span class="text-ja">* 正確な詳細住所およびチェックイン方法は、ご予約確定後にAirbnbのメッセージでご案内いたします。</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="mb-xl">
+      <h2>Nearest Stations</h2>
+      <p class="text-ja mb-sm">最寄り駅</p>
+      <ul class="access-list">
+        <li>
+          <strong>Higashi-Yodogawa Station (JR Kyoto Line)</strong>
+          <div class="text-ja">JR京都線「東淀川駅」</div>
+          <p class="route-note">Very convenient! Only 1 stop from Shin-Osaka bulk train station.</p>
+          <p class="text-ja text-muted">新幹線「新大阪駅」からわずか1駅と大変便利です。</p>
+        </li>
+        <li>
+          <strong>Awaji Station (Hankyu Line / Osaka Metro Sakaisuji Line)</strong>
+          <div class="text-ja">阪急電鉄・Osaka Metro堺筋線「淡路駅」</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mb-xl">
+      <h2>From Major Airports & Stations</h2>
+      <p class="text-ja mb-sm">主要な空港・駅からのアクセス</p>
+      
+      <div class="route-card">
+        <h3>From Kansai International Airport (KIX)</h3>
+        <p class="text-ja mb-sm">関西国際空港からのルート</p>
+        <div class="route-steps">
+          <span class="step">KIX</span>
+          <span class="arrow">→ (Train: Haruka Express) →</span>
+          <span class="step">Shin-Osaka Sta.</span>
+          <span class="arrow">→ (Train: JR Kyoto Line, 1 stop) →</span>
+          <span class="step">Higashi-Yodogawa Sta.</span>
+        </div>
+      </div>
+      
+      <div class="route-card mt-md">
+        <h3>From Shin-Osaka Station by Taxi</h3>
+        <p class="text-ja mb-sm">新大阪駅からタクシーをご利用の場合</p>
+        <p>Approximately 4 minutes by taxi from Shin-Osaka station.</p>
+        <p class="text-ja">新大阪駅からタクシーで約4分です。</p>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  .page-content {
+    padding: var(--spacing-xl) var(--spacing-sm);
+  }
+  .mb-xl {
+    margin-bottom: var(--spacing-xl);
+  }
+  .mt-sm {
+    margin-top: var(--spacing-sm);
+  }
+  .mt-md {
+    margin-top: var(--spacing-md);
+  }
+  .info-box {
+    background: var(--color-bg-alt);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    border-left: 4px solid var(--color-brand);
+  }
+  .access-list {
+    list-style: none;
+    padding: 0;
+  }
+  .access-list li {
+    margin-bottom: var(--spacing-lg);
+  }
+  .route-note {
+    font-size: 0.95em;
+    color: var(--color-brand);
+    margin-top: 4px;
+  }
+  .route-card {
+    border: 1px solid var(--color-border);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+  }
+  .route-steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-bg-alt);
+    padding: var(--spacing-md);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  .step {
+    font-weight: bold;
+  }
+  .arrow {
+    color: var(--color-text-muted);
+    font-size: 0.85em;
+  }
+</style>

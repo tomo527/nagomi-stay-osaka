@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    question: "What time is check-in and check-out?",
+    answer: "Check-in is at 4:00 PM and check-out is at 10:00 AM. Please follow the times strictly to allow for cleaning."
+  },
+  {
+    question: "Is smoking allowed?",
+    answer: "No, smoking is strictly prohibited anywhere on the property, including the balcony. This also applies to incense."
+  },
+  {
+    question: "Is there parking available?",
+    answer: "We do not have private parking. Please use nearby coin parking lots, and do not park on the street."
+  },
+  {
+    question: "Can I host a party?",
+    answer: "Parties and events are not allowed. We kindly ask you to keep the noise down after 9:00 PM out of respect for our neighbors."
+  }
+];
+
+const faqsJa = [
+  {
+    question: "チェックイン・チェックアウトの時間は何時ですか？",
+    answer: "チェックインは午後4時、チェックアウトは午前10時です。清掃のため、時間は厳守でお願いいたします。"
+  },
+  {
+    question: "喫煙は可能ですか？",
+    answer: "ベランダを含め、敷地内は全面禁煙です。お香などの使用もご遠慮ください。"
+  },
+  {
+    question: "駐車場はありますか？",
+    answer: "専用駐車場はございません。お近くのコインパーキングをご利用ください。路上駐車は絶対におやめください。"
+  },
+  {
+    question: "パーティーを開くことはできますか？",
+    answer: "パーティーやイベントは禁止されています。近隣への配慮のため、午後9時以降はお静かにお過ごしください。"
+  }
+];
+
+// Generate FAQPage JSON-LD
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<Layout 
+  title="Rules & FAQ" 
+  description="House rules and frequently asked questions for staying at Nagomi Stay Osaka. Please read before booking."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} slot="json-ld" />
+
+  <div class="container page-content">
+    <h1>Rules & FAQ</h1>
+    <p class="text-ja mb-xl">ハウスルールとよくあるご質問</p>
+    
+    <section class="mb-xl">
+      <h2>House Rules</h2>
+      <p class="text-ja mb-lg">ハウスルール</p>
+      
+      <div class="rules-list">
+        <div class="rule-item">
+          <strong>Quiet Hours after 9:00 PM</strong>
+          <p class="text-ja text-muted">午後9時以降はお静かに</p>
+          <p class="note">Please respect the neighborhood and avoid loud noises or music late at night.</p>
+        </div>
+        
+        <div class="rule-item">
+          <strong>Strictly No Smoking / No Incense</strong>
+          <p class="text-ja text-muted">全面禁煙（お香も不可）</p>
+          <p class="note">Including the balcony. A penalty fee will apply if violated.</p>
+        </div>
+
+        <div class="rule-item">
+          <strong>No Street Parking</strong>
+          <p class="text-ja text-muted">路上駐車の禁止</p>
+          <p class="note">Please use nearby coin parking lots. Do not park in front of the house or neighbors' houses.</p>
+        </div>
+
+        <div class="rule-item">
+          <strong>Do Not Move Furniture</strong>
+          <p class="text-ja text-muted">家具の移動禁止</p>
+          <p class="note">Please do not rearrange the beds, sofas, or heavy furniture to avoid damaging the floors.</p>
+        </div>
+
+        <div class="rule-item">
+          <strong>Hot Water Usage</strong>
+          <p class="text-ja text-muted">お湯のご利用に関する注意</p>
+          <p class="note">The hot water tank has a capacity limit. Please avoid leaving the hot water running continuously for a very long time.</p>
+        </div>
+
+        <div class="rule-item">
+          <strong>Follow Check-in/out Times</strong>
+          <p class="text-ja text-muted">チェックイン・アウト時間の厳守</p>
+          <p class="note">Check-in from 4:00 PM, Check-out by 10:00 AM.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-xl faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <p class="text-ja mb-lg">よくあるご質問</p>
+      
+      <div class="faq-list">
+        {faqs.map((faq, index) => (
+          <details class="faq-item">
+            <summary class="faq-question">
+              {faq.question}
+              <div class="text-ja text-muted" style="font-weight: normal; margin-top: 4px;">{faqsJa[index].question}</div>
+            </summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+              <p class="text-ja" style="margin-top: 8px;">{faqsJa[index].answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+      
+      <div class="contact-note mt-lg">
+        <p>If you have any other questions or need urgent assistance or specific penalities inquiries, please check the full listing details or contact us directly on Airbnb.</p>
+        <p class="text-ja">その他のご質問や緊急時の対応、ペナルティ等に関する詳細については、Airbnbのリスティングページをご確認いただくか、直接メッセージにてご連絡ください。</p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .page-content {
+    padding: var(--spacing-xl) var(--spacing-sm);
+  }
+  .mb-xl {
+    margin-bottom: var(--spacing-xl);
+  }
+  .mb-lg {
+    margin-bottom: var(--spacing-lg);
+  }
+  .mt-lg {
+    margin-top: var(--spacing-lg);
+  }
+  .rules-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+  .rule-item {
+    background: white;
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    border-top: 4px solid var(--color-brand);
+  }
+  .rule-item .note {
+    font-size: 0.9em;
+    margin-top: 8px;
+    color: var(--color-text-main);
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  .faq-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .faq-question {
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none; /* Hide default marker */
+    position: relative;
+    padding-right: 20px;
+  }
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+  .faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--color-brand);
+  }
+  details[open] .faq-question::after {
+    content: '-';
+  }
+  .faq-answer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-border);
+  }
+  .contact-note {
+    background: var(--color-bg-alt);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    font-size: 0.9em;
+  }
+</style>
