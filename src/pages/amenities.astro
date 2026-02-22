@@ -1,5 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getPhotosInDir } from '../lib/photos';
+import ImageWrapper from '../components/ImageWrapper.astro';
+
+const amenityPhotos = getPhotosInDir('07_Amenities');
+
+const getAmenityPhoto = (keywords: string[]) => {
+  if (!amenityPhotos || amenityPhotos.length === 0) return null;
+  
+  for (const keyword of keywords) {
+    const matched = amenityPhotos.find(p => p.toLowerCase().includes(keyword.toLowerCase()));
+    if (matched) return matched;
+  }
+  
+  // Fallback to the first image if no keywords match
+  return amenityPhotos[0];
+};
+
+const entPhoto = getAmenityPhoto(['screen', 'projector', 'tv', 'entertainment']);
+const kitchenPhoto = getAmenityPhoto(['kitchen', 'microwave', 'stove', 'dining']);
+const comfortPhoto = getAmenityPhoto(['washer', 'dryer', 'ac', 'comfort']);
+const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
 ---
 
 <Layout 
@@ -15,18 +36,24 @@ import Layout from '../layouts/Layout.astro';
     
     <div class="amenities-grid">
       <div class="amenity-category">
-        <h3>Entertainment & Connectivity</h3>
-        <p class="text-ja mb-md">エンターテイメント・通信</p>
+        <div class="category-header">
+          <h3>Entertainment & Connectivity</h3>
+          <p class="text-ja mb-md">エンターテイメント・通信</p>
+        </div>
+        {entPhoto && <div class="category-img-container"><ImageWrapper src={entPhoto} alt="Entertainment Amenities" className="category-img" /></div>}
         <ul>
           <li><strong>Free High-Speed Wi-Fi</strong><div class="text-ja text-muted">無料の高速Wi-Fi</div></li>
           <li><strong>Home Theater Projector</strong><div class="text-ja text-muted">ホームシアター用プロジェクター</div></li>
-          <li><strong>TV</strong><div class="text-ja text-muted">テレビ</div></li>
+          <li><strong>Screen</strong><div class="text-ja text-muted">スクリーン</div></li>
         </ul>
       </div>
       
       <div class="amenity-category">
-        <h3>Kitchen & Dining</h3>
-        <p class="text-ja mb-md">キッチン・ダイニング</p>
+        <div class="category-header">
+          <h3>Kitchen & Dining</h3>
+          <p class="text-ja mb-md">キッチン・ダイニング</p>
+        </div>
+        {kitchenPhoto && <div class="category-img-container"><ImageWrapper src={kitchenPhoto} alt="Kitchen Amenities" className="category-img" /></div>}
         <ul>
           <li><strong>Full Kitchen</strong><div class="text-ja text-muted">充実した設備のフルキッチン</div></li>
           <li><strong>Refrigerator, Microwave, Stove</strong><div class="text-ja text-muted">冷蔵庫、電子レンジ、コンロ</div></li>
@@ -35,8 +62,11 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="amenity-category">
-        <h3>Comfort & Laundry</h3>
-        <p class="text-ja mb-md">快適設備・洗濯関連</p>
+        <div class="category-header">
+          <h3>Comfort & Laundry</h3>
+          <p class="text-ja mb-md">快適設備・洗濯関連</p>
+        </div>
+        {comfortPhoto && <div class="category-img-container"><ImageWrapper src={comfortPhoto} alt="Comfort Amenities" className="category-img" /></div>}
         <ul>
           <li><strong>Air Conditioning (AC/Heating)</strong><div class="text-ja text-muted">エアコン（冷暖房）</div></li>
           <li><strong>Washer-Dryer (Combo)</strong><div class="text-ja text-muted">洗濯乾燥機</div></li>
@@ -45,12 +75,15 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="amenity-category">
-        <h3>Bathroom & Essentials</h3>
-        <p class="text-ja mb-md">バスルーム・生活必需品</p>
+        <div class="category-header">
+          <h3>Bathroom & Essentials</h3>
+          <p class="text-ja mb-md">バスルーム・生活必需品</p>
+        </div>
+        {bathPhoto && <div class="category-img-container"><ImageWrapper src={bathPhoto} alt="Bathroom Amenities" className="category-img" /></div>}
         <ul>
           <li><strong>Shampoo, Conditioner, Body Soap</strong><div class="text-ja text-muted">シャンプー、コンディショナー、ボディソープ</div></li>
           <li><strong>Clean Towels & Linens</strong><div class="text-ja text-muted">清潔なタオルとリネン類</div></li>
-          <li><strong>Hair Dryer</strong><div class="text-ja text-muted">ヘアドライヤー</div></li>
+          <li><strong>Hair Dryer & Hair straightener</strong><div class="text-ja text-muted">ヘアドライヤー＆ヘアアイロン</div></li>
         </ul>
       </div>
     </div>
@@ -80,5 +113,17 @@ import Layout from '../layouts/Layout.astro';
   }
   .amenity-category li:last-child {
     border-bottom: none;
+  }
+  .category-img-container {
+    margin-bottom: var(--spacing-md);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 180px;
+    background: #f0f0f0;
+  }
+  .category-img-container :global(img), .category-img-container :global(.image-placeholder) {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 </style>

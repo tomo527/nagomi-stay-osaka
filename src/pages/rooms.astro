@@ -1,6 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ImageWrapper from '../components/ImageWrapper.astro';
+import PhotoCarousel from '../components/PhotoCarousel.astro';
+import { getPhotosInDir } from '../lib/photos';
+
+const livingPhotos = getPhotosInDir('02_Living');
+const bedroom1Photos = getPhotosInDir('05_Bedroom1', '05_Bedroom_Wa');
+const bedroom2Photos = getPhotosInDir('06_Bedroom2', '06_Bedroom_West');
 ---
 
 <Layout 
@@ -35,39 +40,36 @@ import ImageWrapper from '../components/ImageWrapper.astro';
     </div>
 
     <section class="room-section">
-      <div class="room-images">
-        <ImageWrapper src="/photos/02_Living/Living_01.jpg" alt="Living Room" />
-      </div>
-      <div class="room-details">
-        <h2>Living & Dining Room</h2>
-        <p class="text-ja mb-sm">リビング・ダイニング</p>
-        <p>A relaxing space equipped with a projector for movie nights and a comfortable sofa. Connected to a full kitchen.</p>
-        <p class="text-ja">プロジェクターと快適なソファを備えたリラックススペース。フルキッチンとつながっています。</p>
-      </div>
+      <PhotoCarousel 
+        title="Living & Dining Room" 
+        titleJa="リビング・ダイニング"
+        descriptionEn="A relaxing space equipped with a projector for movie nights and a comfortable sofa. Connected to a full kitchen."
+        descriptionJa="プロジェクターと快適なソファを備えたリラックススペース。フルキッチンとつながっています。"
+        images={livingPhotos}
+        altPrefix="Living Room"
+      />
     </section>
 
     <section class="room-section">
-      <div class="room-images">
-        <ImageWrapper src="/photos/03_Bedroom1/Bedroom1_01.jpg" alt="Bedroom 1" />
-      </div>
-      <div class="room-details">
-        <h2>Bedroom 1</h2>
-        <p class="text-ja mb-sm">ベッドルーム 1</p>
-        <p>Comfortable beds ensuring a good night's sleep after a long day of sightseeing.</p>
-        <p class="text-ja">観光の疲れを癒やす寝心地の良いベッドを配置しています。</p>
-      </div>
+      <PhotoCarousel 
+        title="Bedroom 1" 
+        titleJa="ベッドルーム 1"
+        descriptionEn="Comfortable beds ensuring a good night's sleep after a long day of sightseeing."
+        descriptionJa="観光の疲れを癒やす寝心地の良いベッドを配置しています。"
+        images={bedroom1Photos}
+        altPrefix="Bedroom 1"
+      />
     </section>
     
     <section class="room-section">
-      <div class="room-images">
-        <ImageWrapper src="/photos/04_Bedroom2/Bedroom2_01.jpg" alt="Bedroom 2" />
-      </div>
-      <div class="room-details">
-        <h2>Bedroom 2</h2>
-        <p class="text-ja mb-sm">ベッドルーム 2</p>
-        <p>A peaceful secondary bedroom, perfect for kids or extra guests.</p>
-        <p class="text-ja">お子様や追加ゲストに最適な、静かで落ち着く2つ目の寝室です。</p>
-      </div>
+      <PhotoCarousel 
+        title="Bedroom 2" 
+        titleJa="ベッドルーム 2"
+        descriptionEn="A peaceful secondary bedroom, perfect for kids or extra guests."
+        descriptionJa="お子様や追加ゲストに最適な、静かで落ち着く2つ目の寝室です。"
+        images={bedroom2Photos}
+        altPrefix="Bedroom 2"
+      />
     </section>
 
   </div>
@@ -94,16 +96,6 @@ import ImageWrapper from '../components/ImageWrapper.astro';
     margin-bottom: var(--spacing-sm);
   }
   .room-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
-    align-items: center;
-  }
-  
-  @media (max-width: 768px) {
-    .room-section {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

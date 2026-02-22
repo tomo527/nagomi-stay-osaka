@@ -1,0 +1,233 @@
+---
+import ImageWrapper from './ImageWrapper.astro';
+
+export interface Props {
+  title: string;
+  titleJa?: string;
+  images: string[];
+  altPrefix?: string;
+  descriptionJa?: string;
+  descriptionEn?: string;
+}
+
+const { title, titleJa, images, altPrefix = "Room photo", descriptionJa, descriptionEn } = Astro.props;
+const hasPhotos = images && images.length > 0;
+// Generate a unique ID to safely target elements from the client-side script
+const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class="carousel-section">
+  <div class="carousel-header">
+    <h2>{title}</h2>
+    {titleJa && <p class="text-ja mb-sm">{titleJa}</p>}
+    
+    {descriptionEn && <p>{descriptionEn}</p>}
+    {descriptionJa && <p class="text-ja mb-md">{descriptionJa}</p>}
+  </div>
+
+  <div class="carousel-wrapper" id={carouselId}>
+    {hasPhotos ? (
+      <>
+        <button class="nav-btn prev-btn" aria-label="Previous photos">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        
+        <div class="carousel-track">
+          {images.map((img, idx) => (
+            <div class="carousel-slide">
+              <ImageWrapper src={img} alt={`${altPrefix} - ${idx + 1}`} className="carousel-img" />
+            </div>
+          ))}
+        </div>
+        
+        <button class="nav-btn next-btn" aria-label="Next photos">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        
+        {images.length > 1 && (
+          <div class="dots-indicator">
+            {images.map((_, idx) => (
+              <span class={`dot ${idx === 0 ? 'active' : ''}`} data-index={idx}></span>
+            ))}
+          </div>
+        )}
+      </>
+    ) : (
+      <div class="fallback-box">
+        <p>Photos coming soon</p>
+      </div>
+    )}
+  </div>
+</div>
+
+<script define:vars={{ carouselId, hasPhotos }}>
+  // Only setup JS if we have photos
+  if (hasPhotos) {
+    const parent = document.getElementById(carouselId);
+    if (parent) {
+      const track = parent.querySelector('.carousel-track');
+      const prevBtn = parent.querySelector('.prev-btn');
+      const nextBtn = parent.querySelector('.next-btn');
+      const dots = parent.querySelectorAll('.dot');
+      
+      const updateUI = () => {
+        if (!track) return;
+        const scrollLeft = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        
+        // Disable/enable buttons based on scroll position (allow small 5px margin of error)
+        if (prevBtn) prevBtn.disabled = scrollLeft <= 5;
+        if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 5;
+        
+        // Update dots
+        if (dots.length > 0) {
+          const slideWidth = track.clientWidth;
+          const currentIndex = Math.round(scrollLeft / slideWidth);
+          dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        }
+      };
+
+      if (prevBtn && track) {
+        prevBtn.addEventListener('click', () => {
+          track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        });
+      }
+
+      if (nextBtn && track) {
+        nextBtn.addEventListener('click', () => {
+          track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        });
+      }
+
+      if (track) {
+        // Update UI when scrolling ends
+        track.addEventListener('scroll', () => {
+          // Debounce scroll event slightly
+          clearTimeout(parent._scrollTimer);
+          parent._scrollTimer = setTimeout(updateUI, 50);
+        });
+        
+        // Initial UI state
+        updateUI();
+        
+        // Handle window resize which might change maxScroll
+        window.addEventListener('resize', updateUI);
+      }
+    }
+  }
+</script>
+
+<style>
+  .carousel-section {
+    margin-bottom: var(--spacing-xl);
+  }
+  .carousel-header {
+    margin-bottom: var(--spacing-md);
+  }
+  .carousel-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f9fa;
+  }
+  .carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .carousel-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 16/9; /* Standard photography crop */
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Ensure image wrapper fully covers the slide area */
+  .carousel-slide :global(img), .carousel-slide :global(.image-placeholder) {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0;
+  }
+  
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: var(--color-text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: white;
+    transform: translateY(-50%) scale(1.05);
+  }
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .prev-btn {
+    left: 12px;
+  }
+  .next-btn {
+    right: 12px;
+  }
+  
+  .dots-indicator {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(2px);
+    transition: background 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .dot.active {
+    background: white;
+    transform: scale(1.2);
+  }
+
+  .fallback-box {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--color-text-muted);
+    background: #f0f0f0;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+  }
+</style>
