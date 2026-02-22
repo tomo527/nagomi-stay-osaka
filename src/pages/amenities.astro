@@ -1,26 +1,58 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getPhotosInDir } from '../lib/photos';
+import { getPhotosInDir, getExactOrNormalizedPhoto } from '../lib/photos';
 import ImageWrapper from '../components/ImageWrapper.astro';
 
 const amenityPhotos = getPhotosInDir('07_Amenities');
 
-const getAmenityPhoto = (keywords: string[]) => {
-  if (!amenityPhotos || amenityPhotos.length === 0) return null;
+// Helper to define an amenity item
+interface AmenityItem {
+  nameEn: string;
+  nameJa: string;
+}
+
+const renderAmenity = (item: AmenityItem) => {
+  const photoPath = getExactOrNormalizedPhoto(item.nameEn, amenityPhotos);
   
-  for (const keyword of keywords) {
-    const matched = amenityPhotos.find(p => p.toLowerCase().includes(keyword.toLowerCase()));
-    if (matched) return matched;
-  }
-  
-  // Fallback to the first image if no keywords match
-  return amenityPhotos[0];
+  return `
+    <li class="amenity-item">
+      <div class="amenity-text">
+        <strong>${item.nameEn}</strong>
+        <div class="text-ja text-muted">${item.nameJa}</div>
+      </div>
+      ${photoPath ? `
+      <div class="amenity-photo-container">
+        <img src="${photoPath}" alt="${item.nameEn}" class="amenity-inline-photo" loading="lazy" />
+      </div>
+      ` : ''}
+    </li>
+  `;
 };
 
-const entPhoto = getAmenityPhoto(['screen', 'projector', 'tv', 'entertainment']);
-const kitchenPhoto = getAmenityPhoto(['kitchen', 'microwave', 'stove', 'dining']);
-const comfortPhoto = getAmenityPhoto(['washer', 'dryer', 'ac', 'comfort']);
-const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
+// Data definition
+const amenitiesEnt: AmenityItem[] = [
+  { nameEn: "Free High-Speed Wi-Fi", nameJa: "無料の高速Wi-Fi" },
+  { nameEn: "Home Theater Projector", nameJa: "ホームシアター用プロジェクター" },
+  { nameEn: "Screen", nameJa: "スクリーン" }
+];
+
+const amenitiesKitchen: AmenityItem[] = [
+  { nameEn: "Full Kitchen", nameJa: "充実した設備のフルキッチン" },
+  { nameEn: "Refrigerator, Microwave, Stove", nameJa: "冷蔵庫、電子レンジ、コンロ" },
+  { nameEn: "Cooking Basics & Tableware", nameJa: "基本的な調理器具と食器類" }
+];
+
+const amenitiesComfort: AmenityItem[] = [
+  { nameEn: "Air Conditioning (AC Heating)", nameJa: "エアコン（冷暖房）" },
+  { nameEn: "Washer-Dryer (Combo)", nameJa: "洗濯乾燥機" },
+  { nameEn: "Self Check-In Dial Lock", nameJa: "ダイヤル錠によるセルフチェックイン" }
+];
+
+const amenitiesBath: AmenityItem[] = [
+  { nameEn: "Shampoo, Conditioner, Body Soap", nameJa: "シャンプー、コンディショナー、ボディソープ" },
+  { nameEn: "Clean Towels & Linens", nameJa: "清潔なタオルとリネン類" },
+  { nameEn: "Hair Dryer & Hair straightener", nameJa: "ヘアドライヤー＆ヘアアイロン" }
+];
 ---
 
 <Layout 
@@ -40,12 +72,7 @@ const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
           <h3>Entertainment & Connectivity</h3>
           <p class="text-ja mb-md">エンターテイメント・通信</p>
         </div>
-        {entPhoto && <div class="category-img-container"><ImageWrapper src={entPhoto} alt="Entertainment Amenities" className="category-img" /></div>}
-        <ul>
-          <li><strong>Free High-Speed Wi-Fi</strong><div class="text-ja text-muted">無料の高速Wi-Fi</div></li>
-          <li><strong>Home Theater Projector</strong><div class="text-ja text-muted">ホームシアター用プロジェクター</div></li>
-          <li><strong>Screen</strong><div class="text-ja text-muted">スクリーン</div></li>
-        </ul>
+        <ul set:html={amenitiesEnt.map(renderAmenity).join('')} />
       </div>
       
       <div class="amenity-category">
@@ -53,12 +80,7 @@ const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
           <h3>Kitchen & Dining</h3>
           <p class="text-ja mb-md">キッチン・ダイニング</p>
         </div>
-        {kitchenPhoto && <div class="category-img-container"><ImageWrapper src={kitchenPhoto} alt="Kitchen Amenities" className="category-img" /></div>}
-        <ul>
-          <li><strong>Full Kitchen</strong><div class="text-ja text-muted">充実した設備のフルキッチン</div></li>
-          <li><strong>Refrigerator, Microwave, Stove</strong><div class="text-ja text-muted">冷蔵庫、電子レンジ、コンロ</div></li>
-          <li><strong>Cooking Basics & Tableware</strong><div class="text-ja text-muted">基本的な調理器具と食器類</div></li>
-        </ul>
+        <ul set:html={amenitiesKitchen.map(renderAmenity).join('')} />
       </div>
 
       <div class="amenity-category">
@@ -66,12 +88,7 @@ const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
           <h3>Comfort & Laundry</h3>
           <p class="text-ja mb-md">快適設備・洗濯関連</p>
         </div>
-        {comfortPhoto && <div class="category-img-container"><ImageWrapper src={comfortPhoto} alt="Comfort Amenities" className="category-img" /></div>}
-        <ul>
-          <li><strong>Air Conditioning (AC/Heating)</strong><div class="text-ja text-muted">エアコン（冷暖房）</div></li>
-          <li><strong>Washer-Dryer (Combo)</strong><div class="text-ja text-muted">洗濯乾燥機</div></li>
-          <li><strong>Self Check-In Dial Lock</strong><div class="text-ja text-muted">ダイヤル錠によるセルフチェックイン</div></li>
-        </ul>
+        <ul set:html={amenitiesComfort.map(renderAmenity).join('')} />
       </div>
 
       <div class="amenity-category">
@@ -79,12 +96,7 @@ const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
           <h3>Bathroom & Essentials</h3>
           <p class="text-ja mb-md">バスルーム・生活必需品</p>
         </div>
-        {bathPhoto && <div class="category-img-container"><ImageWrapper src={bathPhoto} alt="Bathroom Amenities" className="category-img" /></div>}
-        <ul>
-          <li><strong>Shampoo, Conditioner, Body Soap</strong><div class="text-ja text-muted">シャンプー、コンディショナー、ボディソープ</div></li>
-          <li><strong>Clean Towels & Linens</strong><div class="text-ja text-muted">清潔なタオルとリネン類</div></li>
-          <li><strong>Hair Dryer & Hair straightener</strong><div class="text-ja text-muted">ヘアドライヤー＆ヘアアイロン</div></li>
-        </ul>
+        <ul set:html={amenitiesBath.map(renderAmenity).join('')} />
       </div>
     </div>
   </div>
@@ -102,28 +114,33 @@ const bathPhoto = getAmenityPhoto(['hair', 'straightener', 'shampoo', 'bath']);
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-xl);
   }
-  .amenity-category ul {
+  .amenity-category :global(ul) {
     list-style: none;
     padding: 0;
   }
-  .amenity-category li {
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
+  .amenity-category :global(.amenity-item) {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
     border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
-  .amenity-category li:last-child {
+  .amenity-category :global(.amenity-item:last-child) {
     border-bottom: none;
   }
-  .category-img-container {
-    margin-bottom: var(--spacing-md);
+  .amenity-category :global(.amenity-photo-container) {
+    width: 100%;
     border-radius: 8px;
     overflow: hidden;
-    height: 180px;
-    background: #f0f0f0;
+    background: #f8f9fa;
+    border: 1px solid var(--color-border);
   }
-  .category-img-container :global(img), .category-img-container :global(.image-placeholder) {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
+  .amenity-category :global(.amenity-inline-photo) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
   }
 </style>
